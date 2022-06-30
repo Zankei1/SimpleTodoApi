@@ -3,11 +3,17 @@ import express from "express";
 import { randomUUID } from "crypto";
 import { appDataSource } from "./data";
 import { Todo } from "./data/entities/Todo";
+import cors from "cors";
 
 const todosRepo = appDataSource.getRepository(Todo);
 
 const app = express();
 app.use(express.json());
+
+app.use(cors({
+    origin: "*",
+    optionsSuccessStatus: 200
+}))
 
 app.get("/todo", async (request, response) => {
     const todos = await todosRepo.find();
